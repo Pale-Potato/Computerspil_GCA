@@ -38,7 +38,7 @@ public class GameSystem {
             Game game = games[i];
 
             if (game != null) {
-                System.out.println("Spil " + (i+1) + ": " + game.getTitle());
+                game.displayDetails();
             }
         }
     }
@@ -48,14 +48,18 @@ public class GameSystem {
             Player player = players[i];
 
             if (player != null) {
-                System.out.println("Spiller: " + player.getName());
+                player.displayDetails();
             }
         }
     }
 
     public void updatePlayerScore(int playerId, double newScore) {
         Player player = findPlayerById(playerId);
-        player.updateScore(newScore);
+        if (player == null) {
+            System.out.println("Spiller findes ikke.");
+        } else {
+            player.updateScore(newScore);
+        }
     }
 
 
@@ -81,32 +85,52 @@ public class GameSystem {
         return null;
     }
 
-    public void setPlayersByScore() {
+    public Player[] setPlayersByScore() {
+        Player[] sortedPlayers = new Player[playerCount];
+
+        //kopierer elementer fra players til sortedPlayers
+        for (int i = 0; i<playerCount;i++){
+            sortedPlayers[i] = players[i];
+        }
+
+        //buble sort listen sortedPlayers
         for (int i = 0; i < playerCount - 1; i++) {
 
             for (int j = 0; j < playerCount - 1 - i; j++) {
 
-                if (players[j].getScore() < players[j + 1].getScore()) {
+                if (sortedPlayers[j].getScore() < sortedPlayers[j + 1].getScore()) {
 
-                    Player temp = players[j];
+                    Player temp = sortedPlayers[j];
 
-                    players[j] = players[j + 1];
+                    sortedPlayers[j] = sortedPlayers[j + 1];
 
-                    players[j + 1] = temp;
+                    sortedPlayers[j + 1] = temp;
                 }
             }
         }
+        return sortedPlayers;
     }
 
     public void displayLeaderboard() {
-        setPlayersByScore();
+        Player[] sortedPlayers = setPlayersByScore();
         System.out.println("==========================");
         System.out.println("       LEADERBOARD");
         System.out.println("==========================");
         for (int i = 0; i<playerCount; i++){
-            System.out.println("   " + (i+1) + ". " + players[i].getName() + " | " + players[i].getScore());
+            System.out.println("   " + (i+1) + ". " + sortedPlayers[i].getName() + " | " + sortedPlayers[i].getScore());
         }
         System.out.println("==========================");
+    }
+
+    public Player findTopScoringPlayer(){
+        Player topScoringsPlayer = null;
+
+        for (int i = 0; i<playerCount; i++){
+            if (topScoringsPlayer == null || players[i].getScore() > topScoringsPlayer.getScore()) {
+                topScoringsPlayer = players[i];
+            }
+        }
+        return topScoringsPlayer;
     }
 
 

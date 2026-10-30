@@ -7,9 +7,9 @@ public class Game {
 
     public Game(int gameId, String title, String genre, double price) {
         this.gameId = gameId;
-        this.title = title;
-        this.genre = genre;
-        this.price = price;
+        setTitle(title);
+        setGenre(genre);
+        setPrice(price);
     }
 
 
@@ -26,7 +26,11 @@ public class Game {
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        if (title == null){
+            System.out.println("Title må ikke være tom.");
+        } else {
+            this.title = title;
+        }
     }
 
     public String getGenre() {
@@ -34,7 +38,11 @@ public class Game {
     }
 
     public void setGenre(String genre) {
-        this.genre = genre;
+        if (genre == null){
+            System.out.println("Genre må ikke være tom.");
+        } else {
+            this.genre = genre;
+        }
     }
 
     public double getPrice() {
@@ -42,7 +50,11 @@ public class Game {
     }
 
     public void setPrice(double price) {
-        this.price = price;
+        if (price<0){
+            System.out.println("Ugyldig pris.");
+        } else {
+            this.price = price;
+        }
     }
 
     public void displayDetails() {

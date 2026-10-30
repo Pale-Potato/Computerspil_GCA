@@ -7,9 +7,9 @@ public class Player {
 
     public Player(int playerId, String name, int age, double score) {
         this.playerId = playerId;
-        this.name = name;
-        this.age = age;
-        this.score = score;
+        setName(name);
+        setAge(age);
+        setScore(score);
     }
 
     public int getPlayerId() {
@@ -25,15 +25,23 @@ public class Player {
     }
 
     public void setName(String name) {
-        this.name = name;
+        if (name == null) {
+            System.out.println("Navn må ikke være tomt.");
+        } else {
+            this.name = name;
+        }
     }
 
     public int getAge() {
-        return age;
+            return age;
     }
 
     public void setAge(int age) {
-        this.age = age;
+        if (age<0) {
+            System.out.println("Ugyldig alder.");
+        } else {
+            this.age=age;
+        }
     }
 
     public double getScore() {
@@ -41,7 +49,11 @@ public class Player {
     }
 
     public void setScore(double score) {
-        this.score = score;
+        if (score < 0) {
+            System.out.println("Ugyldig score.");
+        } else {
+            this.score = score;
+        }
     }
 
 
@@ -52,9 +64,8 @@ public class Player {
         System.out.println("Score: " + score);
     }
 
-    public double updateScore(double newScore){
+    public void updateScore(double newScore){
         score = newScore;
-        return score;
     }
 
 }
